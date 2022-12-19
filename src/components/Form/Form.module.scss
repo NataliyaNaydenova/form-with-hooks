@@ -2,7 +2,7 @@
 
 .container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,7 +41,7 @@ strong {
     color: $color-white;
 }
 
-button {
+.btn {
     background: $color-light-pink;
     border: 1px solid $color-light-pink;
     color: $color-white;
@@ -69,4 +69,21 @@ button:hover {
     margin: 0;
     color: $color-light-pink;
     font-size: 10px;
+}
+
+.resultsWrapper {
+    width: 400px;
+    height: auto;
+    display: flex;
+    flex-flow: column wrap;
+    color: $color-white;
+}
+
+.successMessage {
+    width: 400px;
+    color: $color-white;
+    background-color: $color-success;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
 }

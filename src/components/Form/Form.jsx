@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Form.module.scss';
-import { TextField, ThemeProvider, createTheme } from '@mui/material';
 import { useForm, useController } from 'react-hook-form';
-
-const theme = createTheme({
-  palette: {
-    type: "dark"
-  }
-});
+import { useState } from 'react';
 
 const Form = () => {
   const { register, formState: { errors }, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const [results, setResults] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const onSubmit = (data) => setResults(data);
+
+  useEffect(() => {
+    console.log(results);
+  }, [results])
 
   return (
     <form className={styles.container} onSubmit={handleSubmit(onSubmit)}>
@@ -39,7 +39,7 @@ const Form = () => {
       </div>
       <div className={styles.fieldWrapper}>
         <label className={styles.selectLabel} htmlFor='hair-color'>Hair Color</label>
-        <select className={styles.select} id='hair-color' {...register("Hair Color", { required: false })}>
+        <select className={styles.select} id='hair-color' {...register("hairColor", { required: false })}>
           <option value="blond">Blond</option>
           <option value="brown">Brown</option>
           <option value="red">Red</option>
@@ -50,17 +50,17 @@ const Form = () => {
         <strong>Select outfit Size</strong>
         <div className={styles.radioWrapper}>
           <input className={styles.radio} type="radio" id="size-s" value='S' {...register("selectSize", { required: false })}></input>
-          <label htmlFor='size-s'>S</label>
+          <label className={styles.inputLabel} htmlFor='size-s'>S</label>
         </div>
 
         <div className={styles.radioWrapper}>
           <input className={styles.radio} type="radio" id="size-m" value='M' {...register("selectSize", { required: false })}></input>
-          <label htmlFor='size-m'>M</label>
+          <label className={styles.inputLabel} htmlFor='size-m'>M</label>
         </div>
 
         <div className={styles.radioWrapper}>
           <input className={styles.radio} type="radio" id="size-l" value='L' {...register("selectSize", { required: false })}></input>
-          <label htmlFor='size-l'>L</label>
+          <label className={styles.inputLabel} htmlFor='size-l'>L</label>
         </div>
       </div>
 
@@ -81,12 +81,24 @@ const Form = () => {
           <label className={styles.checkboxLabel} htmlFor='join-team'>Join Team</label>
         </div>
 
-        <div className={styles.btn}>
-          <button>Submit</button>
+        <div className={styles.btnContainer}>
+          <button className={styles.btn} onClick={() => setVisible(!visible)}>Submit</button>
         </div>
 
         <strong>All fields Marked with * are requierd</strong>
       </div>
+      {visible && <div className={styles.successMessage}>
+        <p>Successfully sent!</p>
+      </div>}
+      {visible && <div className={styles.resultsWrapper}>
+          <p className={styles.result}>First Name: {results.firstName}</p>
+          <p className={styles.result}>Last Name: {results.lastName}</p>
+          <p className={styles.result}>Email: {results.email}</p>
+          <p className={styles.result}>Age: {results.age}</p>
+          <p className={styles.result}>Hair Color: {results.hairColor}</p>
+          <p className={styles.result}>Size: {results.selectSize}</p>
+          <p className={styles.result}>Terms: {results.terms}</p>
+      </div>}
     </form>
   )
 }
